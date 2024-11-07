@@ -2,6 +2,7 @@ package com.example.appchat.controller;
 
 import com.example.appchat.dto.request.AuthenticationRequest;
 import com.example.appchat.dto.request.IntrospectRequest;
+import com.example.appchat.dto.request.LogOutRequest;
 import com.example.appchat.dto.response.ApiResponse;
 import com.example.appchat.dto.response.AuthenticationResponse;
 import com.example.appchat.dto.response.IntrospectResponse;
@@ -38,6 +39,15 @@ public class AuthenticationController {
 
         return ApiResponse.<IntrospectResponse>builder()
                 .result(result)
+                .build();
+    }
+
+    @PostMapping("/logout")
+    ApiResponse<Void> logout(@RequestBody LogOutRequest request)
+            throws ParseException, JOSEException {
+        authenticationService.logout(request);
+
+        return ApiResponse.<Void>builder()
                 .build();
     }
 
