@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ErrorCode {
     USER_EXISTED(1001,"User Existed", HttpStatus.BAD_REQUEST),
-    USER_NOT_EXISTED(1002,"User not found", HttpStatus.BAD_REQUEST)
+    USER_NOT_EXISTED(1002,"User not found", HttpStatus.BAD_REQUEST),
+    UNAUTHENTICATED(1003,"Unauthenticated!!",HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(1004,"You do not have permission!!",HttpStatus.FORBIDDEN),
+    EMAIL_NOT_EXISTS(1004,"Email not exists!!",HttpStatus.BAD_REQUEST)
     ;
 
     private final int errorCode;
