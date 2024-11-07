@@ -2,7 +2,6 @@ package com.example.appchat.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jdk.jfr.Name;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -63,6 +61,7 @@ public class User {
 
     @Column(name = "updated_at")
     @UpdateTimestamp
+    @JsonFormat(pattern = "dd-MM-yyyy")
     LocalDateTime updatedDate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

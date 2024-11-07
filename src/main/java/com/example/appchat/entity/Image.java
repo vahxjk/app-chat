@@ -32,5 +32,5 @@ public class Image {
 
     @ManyToOne
     @JoinColumn(name = "message_id", columnDefinition = "message_id")
-    Image image;
+    Message message;
 }

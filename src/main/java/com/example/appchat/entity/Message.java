@@ -59,6 +59,6 @@ public class Message {
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     List<File> files;
 
-    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "message", cascade = CascadeType.ALL,orphanRemoval = true)
     List<Image> images;
 }
