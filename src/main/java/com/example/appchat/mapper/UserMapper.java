@@ -16,7 +16,7 @@ public interface UserMapper {
 
     UserResponse toUserResponse(User user);
 
-    List<UserResponse> toListUserResponse(List<User> userList);
+    void updateUser(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
 
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    List<UserResponse> toListUserResponse(List<User> list);
 }

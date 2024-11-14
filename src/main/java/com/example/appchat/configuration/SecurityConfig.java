@@ -17,15 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/users", "/auth/token","/auth/introspect","/auth/logout","/auth/refresh"};
-
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder(10);
-    }
-
-
+    private final String[] PUBLIC_ENDPOINTS = {"/users","/auth/token","/auth/introspect","/auth/logout","/auth/refresh"};
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
 
@@ -45,5 +37,8 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(10);
+    }
 }

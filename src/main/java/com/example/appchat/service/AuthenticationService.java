@@ -89,14 +89,11 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse isAuthenticated(AuthenticationRequest request){
-        User user = userRepository.findByEmail(request.getEmail());
-        if (user.getEmail().isEmpty()){
-            throw new AppException(ErrorCode.EMAIL_NOT_EXISTS);
-        }
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXISTS));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
-
         if(!authenticated)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
