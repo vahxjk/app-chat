@@ -14,7 +14,8 @@ public enum ErrorCode {
     EMAIL_OR_PHONE_EXISTS(1005,"Email or phone already existed!!",HttpStatus.BAD_REQUEST),
     EMAIL_EXISTED(1006,"Email is already existed!!",HttpStatus.BAD_REQUEST),
     PHONE_EXISTED(1007,"Phone is already existed!!",HttpStatus.BAD_REQUEST),
-    CONTACT_NOT_FOUND(1007,"Contact not found!!",HttpStatus.BAD_REQUEST)
+    CONTACT_NOT_FOUND(1007,"Contact not found!!",HttpStatus.NOT_FOUND),
+    CONVERSATION_NOT_FOUND(1007,"Conversation not found!!",HttpStatus.NOT_FOUND)
     ;
 
     private final int errorCode;
