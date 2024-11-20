@@ -15,6 +15,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,15 +32,22 @@ public class MessageService {
 
 
     public MessageResponse createMessage(MessageRequest messageRequest) {
-        Conversation conversation = conversationRepository.findById(messageRequest.getConversationId())
-                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
-        User sender = userRepository.findById(messageRequest.getSenderId())
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer senderId = Integer.valueOf(authentication.getName());
+        User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
-        messageRequest.setConversationId(conversation.getId());
-        messageRequest.setSenderId(sender.getId());
+        Conversation conversation = conversationRepository.findActiveConversationByUserId(senderId)
+                .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
         Message message = messageMapper.toMessage(messageRequest);
+        message.setSender(sender);
+        message.setConversation(conversation);
+        var response = messageMapper.toMessageResponse(messageRepository.save(message));
+        response.setSenderId(sender.getId());
+        response.setConversationId(conversation.getId());
+        return response;
+    }
 
-        return messageMapper.toMessageResponse(messageRepository.save(message));
+    public MessageResponse updateMessage(Integer id) {
+        return null;
     }
 }

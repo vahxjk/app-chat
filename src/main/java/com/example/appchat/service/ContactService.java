@@ -31,16 +31,10 @@ public class ContactService {
 
     public ContactResponse addContact(ContactRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("auth: {}",authentication.getName()); // lay email nguoi dung
-        String email = authentication.getName();
-        if (contactRepository.findContactByPhone(request.getPhone()) != null) {
-            throw new AppException(ErrorCode.PHONE_EXISTED);
-        }
-        if (contactRepository.findContactByEmail(request.getEmail()) != null) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
-        }
+        log.info("auth: {}",authentication.getName()); // lay id nguoi dung
+        Integer id = Integer.valueOf(authentication.getName());
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         Contact contact = contactMapper.toContact(request);
@@ -62,11 +56,11 @@ public class ContactService {
     public List<ContactResponse> getAllContactsById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("authentication: {}", authentication.getName());
-        String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
+        Integer id = Integer.valueOf(authentication.getName());
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXISTS));
-        Integer id = user.getId();
-        log.info("id: {}", id);
+        Integer id1 = user.getId();
+        log.info("id: {}", id1);
         List<Contact> contactList = contactRepository.findAllByUserId(id);
         return contactMapper.toListContactResponse(contactList);
     }

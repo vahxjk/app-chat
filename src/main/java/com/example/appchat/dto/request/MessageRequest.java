@@ -16,7 +16,4 @@ public class MessageRequest {
 
     String message;
 
-    Integer conversationId;
-
-    Integer senderId;
 }

@@ -16,5 +16,5 @@ public interface MessageMapper {
 
     void updateMessage(@MappingTarget Message message, MessageRequest request);
 
-    List<MessageResponse> toListMessageResponse(List<Message> messages);
+    List<MessageResponse> toListMessageResponse(List<Message> messageList);
 }

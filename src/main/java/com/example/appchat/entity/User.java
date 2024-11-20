@@ -24,10 +24,10 @@ public class User {
     @Column(name = "user_id")
     Integer id;
 
-    @Column(name = "phone",nullable = false,length = 16, unique = true)
+    @Column(name = "phone",nullable = false,length = 16, unique = true,columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String phone;
 
-    @Column(name = "email",nullable = false, unique = true)
+    @Column(name = "email",nullable = false, unique = true,columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
     String email;
 
     @Column(name = "password",nullable = false)

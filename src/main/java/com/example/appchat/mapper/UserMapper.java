@@ -11,12 +11,11 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
     User toUser(UserRequest request);
 
     UserResponse toUserResponse(User user);
 
-    void updateUser(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
+    void updateUser(@MappingTarget User user, UserUpdateRequest request);
 
-    List<UserResponse> toListUserResponse(List<User> list);
+    List<UserResponse> toListUserResponse(List<User> userList);
 }

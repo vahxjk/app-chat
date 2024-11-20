@@ -31,24 +31,29 @@ public class ConversationService {
 
     public ConversationResponse createConversation(ConversationRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
+        Integer id = Integer.valueOf(authentication.getName());
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_EXISTS));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
 
         Conversation conversation = conversationMapper.toConversation(request);
         conversation.setCreator(user);
 
-        return conversationMapper.toConversationResponse(conversationRepository.save(conversation));
+        var response = conversationMapper.toConversationResponse(conversationRepository.save(conversation));
+        response.setCreatorId(user.getId());
+        return response;
     }
 
     public ConversationResponse updateConversation(Integer id, ConversationRequest request) {
         Conversation conversation = conversationRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CONVERSATION_NOT_FOUND));
         conversationMapper.updateConversation(conversation, request);
-
-        return conversationMapper.toConversationResponse(conversationRepository.save(conversation));
+        var response = conversationMapper.toConversationResponse(conversationRepository.save(conversation));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = Integer.valueOf(authentication.getName());
+        response.setCreatorId(userId);
+        return response;
     }
 
     public void deleteConversation(Integer id) {
@@ -58,10 +63,9 @@ public class ConversationService {
     public List<ConversationResponse> getAllConversationsById() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("authentication: {}", authentication.getName());
-        String email = authentication.getName();
-        User user = userRepository.findByEmail(email)
+        Integer id = Integer.valueOf(authentication.getName());
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-
         return conversationMapper.toListConversationResponse(conversationRepository.findAllByCreatorId(user.getId()));
     }
 }
